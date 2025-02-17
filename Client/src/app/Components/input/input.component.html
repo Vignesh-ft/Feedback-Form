@@ -1,0 +1,4 @@
+<div class="flex items-start justify-start flex-col w-full gap-5">
+  <p class="flex items-center text-[12px] justify-start font-semibold text-[#171717]">{{title}}</p>
+  <input type="text" (input)="sendValue($event)" [(ngModel)]="input" [placeholder]="placeHolder" class="px-3 text-[12px] py-2 font-regular h-[40px] w-full pt-4 border-b-2 border-[#bdbdbd] outline-none rounded-md"/>
+</div>

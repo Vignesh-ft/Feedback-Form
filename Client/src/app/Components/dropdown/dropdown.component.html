@@ -1,0 +1,21 @@
+<div class="flex items-start justify-start flex-col w-full gap-5">
+  <p class="flex items-center justify-start font-medium text-[#171717]">{{title}}</p>
+
+  <div class="flex items-center justify-between cursor-pointer px-3 text-[12px] h-[40px] w-full pt-4 pb-2 bg-white border-b-2 border-[#bdbdbd] rounded-md relative">
+    <p (click)="ddState = !ddState"  [ngClass]="{'text-[#a1a1a1]': ddValue === 'Select'}" class="w-full h-full">{{ddValue}}</p>
+
+    <span class="flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" [ngClass]="{'rotate-0 duration-200': ddState}" class="rotate-180" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m17 14l-5-5m0 0l-5 5"/>
+      </svg>
+    </span>
+
+
+    <span *ngIf="ddState" class="flex flex-col items-start justify-start w-full h-0 duration-200 absolute top-[105%] border-2 left-0 p-1 overflow-scroll rounded-es-[10px] rounded-ee-[10px] bg-white openDD">
+      @for (opt of ddOptions; track opt) {
+        <p (click)="changedd(opt.name);" class="w-full py-2 px-3 hover:bg-[#dadada]">{{opt.name}}</p>
+      }
+    </span>
+
+  </div>
+</div>

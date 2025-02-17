@@ -1,0 +1,22 @@
+.openDD {
+  animation: grow 0.3s linear forwards
+}
+
+
+@keyframes grow {
+  to {
+    height: 120px;
+  }
+}
+
+
+.optionsVisible {
+  animation: slideIn 300ms linear forwards
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
