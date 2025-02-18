@@ -1,3 +1,30 @@
-<div class="flex items-center justify-start px-7 md:px-10 bg-[#DA2127] w-full h-[60px] lg:w-[65px] lg:h-screen lg:py-7 lg:px-3 lg:items-start">
+<div class="flex items-center justify-between pl-7 md:px-10 bg-[#DA2127] w-full h-[60px] lg:w-[65px] lg:h-screen lg:py-7 lg:px-3 lg:items-start">
   <img src="../../assets/Illustrations/Logo.png" class="w-[9%] md:w-[5%] lg:w-[90%]" alt="">
+
+  <span class="flex lg:hidden items-center justify-between pr-4 w-[150px]">
+
+    <span class="flex flex-col items-start justify-center w-[100px] gap-0.5">
+      <p class="text-[10px] text-[#dddddd]">Logged In as</p>
+      <p class="flex text-[16px] font-bold text-white w-[100px] text-ellipsis text-nowrap whitespace-normal">{{body.name}}</p>
+    </span>
+
+    <span (click)="logOutState = true" class="size-[33px] flex items-center justify-center bg-[#FFF] rounded-[5px]">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#da2127"><path d="M194-88q-43.73 0-74.86-31.14Q88-150.27 88-194v-572q0-43.72 31.14-74.86Q150.27-872 194-872h286v106H194v572h286v106H194Zm438-152-76-78 110-110H354v-106h312L556-644l76-76 240 240-240 240Z"/></svg>
+    </span>
+
+    <span *ngIf="logOutState" class="flex w-screen h-screen absolute items-center justify-center bg-black top-0 left-0 bg-opacity-60 backdrop-blur-sm">
+      <span class="w-[85%] max-w-[400px] h-[30%] max-h-[350px] p-5 bg-white rounded-[10px] shadow-[0_0_10px_#00000040] border-2 relative">
+        <app-title [title]="'Logout'" [subtitle]="'Logout of the application'" ></app-title>
+
+        <p class="text-[12px]">Are you sure to logout of the application.</p>
+
+        <span class="flex w-full items-center justify-end mt-10 absolute bottom-5 gap-2 right-5 ">
+          <button (click)="logOutState = !logOutState" class="flex items-center justify-center w-[80px] text-[10px] h-[33px] rounded-full text-[#DA2127] border-2 border-[#DA2127]">CANCEL</button>
+          <button (click)="logout()" class="flex items-center justify-center w-[80px] text-[10px] h-[33px] rounded-full text-[#fff] bg-[#DA2127]">LOGOUT</button>
+        </span>
+      </span>
+
+    </span>
+
+  </span>
 </div>

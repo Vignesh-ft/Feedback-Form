@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,13 @@ import { Injectable } from '@angular/core';
 export class ApiService {
   constructor(private http:HttpClient) { }
 
-  fetchData(api:any, body:any) {
+  /**
+   * Manages the API call
+   * @param api End point of the API
+   * @param body Body to be send via API
+   * @returns Response data from API
+   */
+  fetchData(api:any, body:any): Observable<any>  {
     return this.http.post<any>(`http://localhost:3000/${api}`, body)
   }
 }

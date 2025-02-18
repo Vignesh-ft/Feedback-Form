@@ -13,6 +13,8 @@ export class AuthService {
     if (username !== "" && password === "Robis@123") {
       this.isAuthenticated.set(true);
       localStorage.setItem("user",username)
+      console.log("Routing");
+
       this.router.navigate(['/items']);
     } else {
       alert("Invalid credentials!");

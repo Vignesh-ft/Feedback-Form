@@ -3,6 +3,7 @@ const ExcelJS = require("exceljs");
 const express = require("express");
 const { Pool } = require("pg");
 const path = require("path");
+const cors = require("cors")
 
 
 const app = express();
@@ -21,6 +22,7 @@ const pool = new Pool({
 });
 
 app.use(express.json());
+app.use(cors())
 
 app.post("/items", async (req, res) => {
     try {
@@ -43,6 +45,26 @@ app.post("/items", async (req, res) => {
     }
 });
 
+app.post("/bin_number", async (req, res) => {
+    try {
+        const { name } = req.body; // Extract name from request body
+
+        if (!name) {
+            return res.status(400).json({ error: "Name is required" });
+        }
+
+        const query = "SELECT bin_number FROM stores_data;";
+        const result = await pool.query(query);
+
+        // Extract item_code values into an array
+        const itemCodes = result.rows.map(row => row.bin_number);
+
+        res.status(200).json({ name: name, data: itemCodes });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Database error" });
+    }
+});
 
 // POST API to insert data
 app.post("/stores", async (req, res) => {
@@ -58,10 +80,10 @@ app.post("/stores", async (req, res) => {
         `;
         const values = [name, date, time, item_code, quantity, bin_number];
         const result = await pool.query(query, values);
-        res.status(201).json({ message: "Data inserted successfully", data: result.rows[0] });
+        res.status(201).json({ message: "Data inserted successfully", data: result.rows[0], uploaded: true });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Database error" });
+        res.status(500).json({ error: "Database error", uploaded: false });
     }
 });
 
