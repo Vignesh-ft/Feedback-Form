@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TitleComponent } from "../title/title.component";
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../toast.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,11 +16,12 @@ export class SidebarComponent {
   body:any
   logOutState:boolean = false
 
-  constructor(private auth:AuthService) {
+  constructor(private auth:AuthService, private toast:ToastService) {
 
   }
 
   logout() {
+    this.toast.success("Success",  `${localStorage.getItem("user")} logged Out!`)
     this.auth.logout()
   }
 

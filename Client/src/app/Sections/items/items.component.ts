@@ -1,5 +1,4 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core'
-import * as itemCode from "../../../app/variables/Item_code.json"
 import { SidebarComponent } from '../../Components/sidebar/sidebar.component';
 import { TitleComponent } from '../../Components/title/title.component';
 import { InputComponent } from '../../Components/input/input.component';
@@ -8,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { LoadingComponent } from "../loading/loading.component";
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../toast.service';
 
 
 @Component({
@@ -38,15 +38,16 @@ export class ItemsComponent implements OnInit {
 
   body:any = {name: localStorage.getItem('user')}
 
-  constructor(private api:ApiService, private auth:AuthService){
+  constructor(private api:ApiService, private auth:AuthService, private toast:ToastService){
 
   }
 
 
   ngOnInit(): void {
+    this.toast.success("Success",`Welcome ${localStorage.getItem("user")}`)
     this.isLoading = true
-   this.responsePartNumber = this.apiCall("items")
-   this.responseBinNumber = this.apiCall("bin_number")
+    this.responsePartNumber = this.apiCall("items")
+    this.responseBinNumber = this.apiCall("bin_number")
   }
 
 
@@ -54,6 +55,7 @@ export class ItemsComponent implements OnInit {
    * logout Function
    */
   logout() {
+    this.toast.success("Success",  `${localStorage.getItem("user")} logged Out!`)
     this.auth.logout()
   }
 
@@ -94,8 +96,6 @@ export class ItemsComponent implements OnInit {
 
   dd:string = ""
 
-  data = itemCode
-
   getInput(event:any) {
 
     if(event === "filter_part") {
@@ -110,17 +110,20 @@ export class ItemsComponent implements OnInit {
 
     if(event.assign === "partNumber") {
       this.partNumber = event.value
+      this.partNumberError = false
       // console.log(this.partNumber)
     }
 
     if(event.assign === "binNumber") {
       this.binNumber = event.value
+      this.binNumberError = false
       // console.log(this.binNumber);
     }
 
 
     if(event.assign === "quantity") {
       this.quantity = event.value
+      this.quantityError = false
       // console.log(this.quantity);
     }
   }
@@ -166,9 +169,15 @@ export class ItemsComponent implements OnInit {
   /**
    * Clear all Value
    */
-  clearFn() {
+  clearFn(toastr:boolean) {
+    if(toastr) {
+      this.toast.success("Success","All data Feild is Cleared.")
+    }
     console.log("Clearing");
     if(this.childInput) {
+      this.partNumberError = false
+      this.binNumberError = false
+      this.quantityError = false
       this.childInput.forEach((child:any) => {
         child.clearFn()
       });
@@ -205,25 +214,19 @@ export class ItemsComponent implements OnInit {
 
     if(typeof this.partNumber !== "string" || this.partNumber.trim() === "") {
       this.partNumberError = true
-      setTimeout(()=> {
-        this.partNumberError = false
-      }, 1000)
+      this.toast.error("Warning", "Part Number Feild is Empty.")
       return
     }
 
     if(typeof this.quantity !== "number" || this.quantity <= 0) {
       this.quantityError = true
-      setTimeout(()=> {
-        this.quantityError = false
-      }, 1000)
+      this.toast.error("Warning", "Quantity Feild is Empty.")
       return
     }
 
     if(typeof this.binNumber !== "string" || this.binNumber.trim() === "") {
       this.binNumberError = true
-      setTimeout(()=> {
-        this.binNumberError = false
-      }, 1000)
+      this.toast.error("Warning", "Bin Number Feild is Empty.")
       return
     }
 
@@ -246,29 +249,21 @@ export class ItemsComponent implements OnInit {
       }
 
       if(res.uploaded === true){
-        this.clearFn()
+        this.toast.success("Success","Data has been Submitted.")
+        this.clearFn(false)
         setTimeout(()=> {
           this.isLoading = false
         },500)
         this.partNumber = ""
         this.quantity = -1
         this.binNumber = ""
-        this.submission()
       }
       else{
-        this.submission()
+        this.toast.error("Error","Problem Occured While Storing data.")
       }
     })
   }
 
-  submission() {
-    setTimeout(() => {
-      this.submissionStatus = {
-        show: false,
-        response: false
-      }
-    },2500)
-  }
 
 
 

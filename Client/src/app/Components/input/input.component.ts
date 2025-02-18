@@ -19,6 +19,7 @@ export class InputComponent {
   @Input() type:string = ""
   @Input() clear:any
   @Input() isClear:boolean = false
+  @Input() inputMode:string = "text"
 
   openDialog:boolean = false
 

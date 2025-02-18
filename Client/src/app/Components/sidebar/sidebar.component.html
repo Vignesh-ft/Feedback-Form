@@ -1,11 +1,13 @@
 <div class="flex items-center justify-between pl-7 md:px-10 bg-[#DA2127] w-full h-[60px] lg:w-[65px] lg:h-screen lg:py-7 lg:px-3 lg:items-start">
   <img src="../../assets/Illustrations/Logo.png" class="w-[9%] md:w-[5%] lg:w-[90%]" alt="">
 
-  <span class="flex lg:hidden items-center justify-between pr-4 w-[150px]">
+  <span class="flex lg:hidden items-center justify-between pr-4 gap-3 w-[180px]">
 
-    <span class="flex flex-col items-start justify-center w-[100px] gap-0.5">
+    <span class="flex flex-col items-start justify-center w-auto max-w-[130px] gap-0.5">
       <p class="text-[10px] text-[#dddddd]">Logged In as</p>
-      <p class="flex text-[16px] font-bold text-white w-[100px] text-ellipsis text-nowrap whitespace-normal">{{body.name}}</p>
+      <p class="flex text-[16px] font-bold text-white max-w-[120px] truncate">
+        {{ body.name }}
+      </p>
     </span>
 
     <span (click)="logOutState = true" class="size-[33px] flex items-center justify-center bg-[#FFF] rounded-[5px]">
