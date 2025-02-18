@@ -1,6 +1,6 @@
 <div class="flex items-start justify-start flex-col w-full gap-5 relative">
   <p class="flex items-center text-[12px] justify-start font-semibold gap-2 text-[#171717]">{{title}} <svg *ngIf="isError" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#da2127"><path d="M479.82-261q21.18 0 35.68-14.32 14.5-14.33 14.5-35.5 0-21.18-14.32-35.68-14.33-14.5-35.5-14.5-21.18 0-35.68 14.32-14.5 14.33-14.5 35.5 0 21.18 14.32 35.68 14.33 14.5 35.5 14.5ZM427-449h106v-242H427v242ZM316-88 88-316v-328l228-228h328l228 228v328L644-88H316Z"/></svg></p>
-  <input [type]=type (input)="sendValue($event)" [(ngModel)]="input" [placeholder]="placeHolder" class="px-3 text-[12px] py-2 font-regular h-[40px] w-full pt-4 border-b-2 border-[#bdbdbd] outline-none rounded-md"/>
+  <input [type]=type (input)="sendValue($event)" [(ngModel)]="input" [placeholder]="placeHolder" class="px-3 text-[12px] appearance-none py-2 font-regular h-[40px] w-full pt-4 border-b-2 border-[#bdbdbd] outline-none rounded-md"/>
   <ng-content></ng-content>
 
   <span (click)="dialogFn(assignee)" *ngIf="typeSearch && input" class="size-[38px] rounded-[5px] bg-[#DA2127] flex absolute bottom-1 right-1 items-center justify-center">

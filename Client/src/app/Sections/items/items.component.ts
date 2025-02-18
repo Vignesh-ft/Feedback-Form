@@ -31,6 +31,11 @@ export class ItemsComponent implements OnInit {
   apiCalls:number = 0
   clear:boolean = false
   logOutState:boolean = false
+  submissionStatus:any = {
+    show: false,
+    response: false
+  }
+
   body:any = {name: localStorage.getItem('user')}
 
   constructor(private api:ApiService, private auth:AuthService){
@@ -194,55 +199,75 @@ export class ItemsComponent implements OnInit {
 
     console.log(actualDate, actualTime);
 
+    this.quantity = Number(this.quantity)
 
-    if(this.partNumber !== "" && this.quantity !== -1 && this.binNumber !== "") {
-      this.isLoading = true
-      let body = {
-        name: this.body.name,
-       date: actualDate,
-       time: actualTime,
-       item_code: this.partNumber,
-       quantity: this.quantity,
-       bin_number: this.binNumber
+
+
+    if(typeof this.partNumber !== "string" || this.partNumber.trim() === "") {
+      this.partNumberError = true
+      setTimeout(()=> {
+        this.partNumberError = false
+      }, 1000)
+      return
+    }
+
+    if(typeof this.quantity !== "number" || this.quantity <= 0) {
+      this.quantityError = true
+      setTimeout(()=> {
+        this.quantityError = false
+      }, 1000)
+      return
+    }
+
+    if(typeof this.binNumber !== "string" || this.binNumber.trim() === "") {
+      this.binNumberError = true
+      setTimeout(()=> {
+        this.binNumberError = false
+      }, 1000)
+      return
+    }
+
+
+    this.isLoading = true
+    let body = {
+      name: this.body.name,
+      date: actualDate,
+      time: actualTime,
+      item_code: this.partNumber.toUpperCase(),
+      quantity: this.quantity,
+      bin_number: this.binNumber.toUpperCase()
+    }
+    this.api.fetchData('stores',body).subscribe((res:any) => {
+      console.log(res);
+
+      this.submissionStatus = {
+        show: true,
+        response: res.uploaded
       }
-      this.api.fetchData('stores',body).subscribe((res:any) => {
-        console.log(res);
 
-        if(res.uploaded === true){
+      if(res.uploaded === true){
+        this.clearFn()
+        setTimeout(()=> {
           this.isLoading = false
-          this.partNumber = ""
-          this.quantity = -1
-          this.binNumber = ""
-        }
-      })
-    }
-    else {
-      if(this.partNumber === "") {
-        this.partNumberError = true
-        setTimeout(()=> {
-          this.partNumberError = false
-        }, 1000)
-        return
+        },500)
+        this.partNumber = ""
+        this.quantity = -1
+        this.binNumber = ""
+        this.submission()
       }
-
-      if(this.quantity === undefined || this.quantity === null || this.quantity === -1) {
-        this.quantityError = true
-        setTimeout(()=> {
-          this.quantityError = false
-        }, 1000)
-        return
+      else{
+        this.submission()
       }
+    })
+  }
 
-      if(this.binNumber === "") {
-        this.binNumberError = true
-        setTimeout(()=> {
-          this.binNumberError = false
-        }, 1000)
-        return
+  submission() {
+    setTimeout(() => {
+      this.submissionStatus = {
+        show: false,
+        response: false
       }
-
-
-    }
+    },2500)
   }
 
 

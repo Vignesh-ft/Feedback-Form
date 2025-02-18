@@ -38,7 +38,12 @@
 
     </span>
 
-    <span class="flex items-start justify-start w-full h-full flex-col lg:mt-10 mt-3">
+    <span class="h-[30px] w-full mt-2">
+      <p *ngIf="submissionStatus.show && submissionStatus.response" class="text-green-700 text-[12px] font-semibold">{{submissionStatus.response ? "Submitted": "Error"}}</p>
+    </span>
+    <!-- <p class="text-green-700 text-[12px] font-semibold">Submitted</p> -->
+
+    <span class="flex items-start justify-start w-full h-full flex-col lg:mt-3 mt-1">
 
       <span class="flex items-center justify-start w-full">
         <app-input [type]="'text'" class="lg:w-[462px] w-full" [placeHolder]="'PART NUMBER'" [isError]="partNumberError" [isClear]=clear [typeSearch]=true [filteredData]="showDataPart" [title]="'ENTER THE PART NUMBER'" [assignee]="'partNumber'" (outputEmit)="getInput($event)"></app-input>
